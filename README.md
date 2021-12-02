@@ -10,7 +10,7 @@ While there was some element of luck involved in surviving, it seems some groups
 
 In this challenge, I am asked to build a predictive model that answers the question: “what sorts of people were more likely to survive?” using passenger data (ie name, age, gender, socio-economic class, etc).
 
-### What Data Will I Use in This Competition?
+### Data Used
 
 In this competition, I've been given access to two similar datasets that include passenger information like name, age, gender, socio-economic class, etc. One dataset is titled `train.csv` and the other is titled `test.csv`.
 
