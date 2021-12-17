@@ -1,5 +1,7 @@
 # Titanic-Machine-Learning-kaggle-Competition
 
+### About
+
 In this competition we use machine learning to create a model that predicts which passengers survived the Titanic shipwreck. The full details of the competition can be found at  https://www.kaggle.com/c/titanic.
 
 ### The Challenge
