@@ -21,4 +21,3 @@ Train.csv will contain the details of a subset of the passengers on board (891 t
 The `test.csv` dataset contains similar information but does not disclose the “ground truth” for each passenger. It’s my job to predict these outcomes.
 
 Using the patterns I find in the train.csv data, I must predict whether the other 418 passengers on board (found in test.csv) survived.
-
