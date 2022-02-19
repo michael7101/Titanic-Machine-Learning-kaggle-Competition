@@ -44,3 +44,22 @@ Using the patterns I find in the train.csv data, I must predict whether the othe
 - Fare: the amount of money spent on the ticket
 - Cabin: cabin category
 - Embarked: port where passenger embarked (C = Cherbourg, Q = Queenstown, S = Southampton)
+
+#### Import Necessary Libraries
+
+# Required python packages:
+import numpy as np 
+import pandas as pd
+import xgboost as xgb
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+from sklearn import model_selection
+from xgboost import plot_tree
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import plot_confusion_matrix
+from sklearn.metrics import confusion_matrix
+from sklearn.datasets import make_classification
+from sklearn.metrics import accuracy_score
+
+
