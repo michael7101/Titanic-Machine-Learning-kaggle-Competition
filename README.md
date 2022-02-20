@@ -274,6 +274,7 @@ Test accurcy  83.85650224215246 %
 plot_confusion_matrix(model, X_test, y_test, display_labels=["Did not Survive", "Survived"])
 plt.title("confusion Matrix Diagram")
 ```
+![](Images/Figure_6.png)
 
 We have 26 false non-survival predictions in our confusion matrix and only 10 false survived predictions. We want this since our training data had a high percentage of survivors than the actual survivors on the ship. 
 
@@ -288,6 +289,8 @@ plt.ylabel('Features')
 plt.title("Visualizing Important Features")
 plt.tight_layout()
 ```
+![](Images/Figure_7.png)
+
 ```{py}
 # Plot of single tree
 plot_tree(model, num_trees=0)
