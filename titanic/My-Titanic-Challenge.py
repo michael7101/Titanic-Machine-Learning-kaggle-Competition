@@ -138,3 +138,7 @@ plt.xlabel('Feature Importance Score')
 plt.ylabel('Features')
 plt.title("Visualizing Important Features")
 plt.tight_layout()
+
+# Using our model to make a prediction
+test = test_encoded.copy()
+predictions = model.predict(test)
