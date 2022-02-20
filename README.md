@@ -302,4 +302,4 @@ submit['Survived']=predictions
 submit.to_csv('submission.csv', index=False)
 ```
 
-Our submission to the competition resulted in a 77.5 percent accuracy. Not bad for our first attempt. Any suggestions to improve our score are welcome.
+Our submission to the competition resulted in a 77.5 percent accuracy on the survivours. Which I'm happy with for a first attempt. Any suggestions to improve our score are welcome.
