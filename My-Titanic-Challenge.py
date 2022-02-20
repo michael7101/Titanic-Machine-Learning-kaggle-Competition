@@ -8,7 +8,7 @@ import seaborn as sns
 from sklearn import model_selection
 from xgboost import plot_tree
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import plot_confusion_matrix
+from sklearn.metrics import ConfusionMatrixDisplay
 from sklearn.metrics import confusion_matrix
 from sklearn.datasets import make_classification
 from sklearn.metrics import accuracy_score
@@ -53,15 +53,15 @@ test_data[columns_low_NA] = test_data[columns_low_NA].fillna(test_data.mode(
 
 # Survival chart for comparison of each sex
 sns.countplot(x="Sex", hue="Survived", data=train_data)
-# plt.show()
+plt.show()
 
 # Survival chart for comparison for the "Parch" feature
 sns.countplot(x="Parch", hue="Survived", data=train_data)
-# plt.show()
+plt.show()
 
 # Survival chart for comparison for the "SibSp" feature
 sns.countplot(x="SibSp", hue="Survived", data=train_data)
-# plt.show()
+plt.show()
 
 # Percent of survival for each variable in "Embarked"
 Embarked = train_data[['Embarked', 'Survived']].groupby([
@@ -78,12 +78,12 @@ print(Pclass)
 # Survival chart for comparison of the "Age" feature
 g = sns.FacetGrid(train_data, col='Survived')
 g.map(plt.hist, 'Age', bins=30)
-# plt.show()
+plt.show()
 
 # Survival chart for comparison of the "Fare" feature
 g = sns.FacetGrid(train_data, col='Survived')
 g.map(plt.hist, 'Fare', bins=25)
-# plt.show()
+plt.show()
 
 # Feature mapping for the feature "Pclass"
 Pclass = {1: 'PclassA', 2: 'PclassB', 3: 'PclassC'}
@@ -122,7 +122,7 @@ print('Train accurcy', (accuracy_score(y_train, y_train_predict))*100, '%')
 print('Test accurcy ', (accuracy_score(y_test, y_predict))*100, '%')
 
 # Confusion Matrix Diagram
-plot_confusion_matrix(model, X_test, y_test, display_labels=[
+ConfusionMatrixDisplay(model, X_test, y_test, display_labels=[
     "Did not Survive", "Survived"])
 plt.title("confusion Matrix Diagram")
 
@@ -138,10 +138,3 @@ plt.xlabel('Feature Importance Score')
 plt.ylabel('Features')
 plt.title("Visualizing Important Features")
 plt.tight_layout()
-
-
-# Plot of single tree
-plot_tree(model, num_trees=0)
-plt.gcf().set_size_inches(30, 30)
-plt.title("Plot of Single Tree in our Model")
-plt.show()
