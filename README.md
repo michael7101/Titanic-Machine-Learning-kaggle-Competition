@@ -91,6 +91,7 @@ Total passanger:  32.46402877697842 %
 # Prevewing the values in each feature
 print(train_data.apply(lambda col: col.unique()))
 ```
+```
 PassengerId    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14...
 Survived                                                  [0, 1]
 Pclass                                                 [3, 1, 2]
@@ -103,7 +104,8 @@ Ticket         [A/5 21171, PC 17599, STON/O2. 3101282, 113803...
 Fare           [7.25, 71.2833, 7.925, 53.1, 8.05, 8.4583, 51....
 Cabin          [nan, C85, C123, E46, G6, C103, D56, A6, C23 C...
 Embarked                                          [S, C, Q, nan]
-dtype: object
+```
+
 
 There appear to be some missing values in the features "Age," "Cabin," and "Embarked." The features "PassengerID," "Name," and "Ticket" are of no use in building our model.
 
@@ -124,11 +126,12 @@ NA = pd.DataFrame(NA, columns=["column_name", "percentage"])
 NA = NA[NA.percentage > 0]
 NA.sort_values("percentage", ascending=False)
 ```
+```
 column_name	percentage
 7	Cabin	77.104377
 3	Age	19.865320
 8	Embarked	0.224467
-
+```
 We will discard the " Cabin " feature since it is missing most of its values. We will replace the missing values in features "age" and "Embarked" with mean values in each feature.
 
 ```{py}
@@ -176,11 +179,12 @@ Embarked = train_data[['Embarked', 'Survived']].groupby([
         by='Survived', ascending=False)
 print(Embarked)
 ```
+```
  Embarked  Survived
 0        C  0.553571
 1        Q  0.389610
 2        S  0.339009
-
+```
 Each variable in "Embarked" has roughly a 10% difference in survival rate which means this feature will likely have low importance in our model.
 
 ```{py}
@@ -190,11 +194,12 @@ Pclass = train_data[['Pclass', 'Survived']].groupby([
         by='Survived', ascending=False)
 print(Pclass)
 ```
+```
    Pclass  Survived
 0       1  0.629630
 1       2  0.472826
 2       3  0.242363
-
+```
 Each variable in "Pclass" has, on average, roughly a 20% difference in survival rate which means this feature will likely have moderate importance in our model.
 
 ```{py}
@@ -266,9 +271,10 @@ y_train_predict = model.predict(X_train)
 print('Train accurcy', (accuracy_score(y_train, y_train_predict))*100, '%')
 print('Test accurcy ', (accuracy_score(y_test, y_predict))*100, '%')
 ```
+```
 Train accurcy 97.75449101796407 %
 Test accurcy  83.85650224215246 %
-
+```
 ```{py}
 # Confusion Matrix Diagram
 plot_confusion_matrix(model, X_test, y_test, display_labels=["Did not Survive", "Survived"])
@@ -279,7 +285,7 @@ plt.title("confusion Matrix Diagram")
 We have 26 false non-survival predictions in our confusion matrix and only 10 false survived predictions. We want this since our training data had a high percentage of survivors than the actual survivors on the ship. 
 
 ```{py}
-# Plot of visual importance of each feature
+# Plot to visualize importance of each feature
 feature_imp = pd.Series(model.feature_importances_, index=X_train.columns).sort_values(ascending=False)
 plt.figure(figsize=(10,8))
 sns.barplot(x=feature_imp, y=feature_imp.index)
