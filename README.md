@@ -1,9 +1,8 @@
-# Titanic-Machine-Learning-kaggle-Competition
+# -------------Titanic-Machine-Learning-kaggle-Competition-------------
 
-![download (2).jpg](attachment:81834e94-d324-43f6-b6d5-13bfbb5b2873.jpg)
+![](Images/Titanic_Stardboard_Side_Diagram.jpg)
 
 [img source](https://www.google.com/imgres?imgurl=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fa%2Fa3%2FTitanic_Stardboard_Side_Diagram.jpg&imgrefurl=https%3A%2F%2Fcommons.wikimedia.org%2Fwiki%2FFile%3ATitanic_Stardboard_Side_Diagram.jpg&tbnid=GwertQ_rt9kJgM&vet=12ahUKEwiD4-eWjPb1AhVzqnIEHVPhDHsQMygBegUIARCJAg..i&docid=tMsLPtCu8Kue8M&w=4096&h=1569&q=titanic&hl=en&safe=images&ved=2ahUKEwiD4-eWjPb1AhVzqnIEHVPhDHsQMygBegUIARCJAg)
- 
 
 ## About:
 My purpose for entering this challenge is to learn and practice my data analysis skills. In this competition, we use machine learning to create a model that predicts which passengers survived the Titanic shipwreck. The full details of the competition are [here.](https://www.kaggle.com/c/titanic)
@@ -32,8 +31,7 @@ The test.csv dataset contains similar information but does not disclose whether 
 
 Using the patterns I find in the train.csv data, I must predict whether the other 418 passengers onboard (found in test.csv) survived.
 
-**Variable Descriptions:**
-```{py}
+## Variable Descriptions:
 - Passenger: unique id number to each passenger
 - Survived: passenger survive(1) or died(0)
 - P-class: passenger class
@@ -46,7 +44,6 @@ Using the patterns I find in the train.csv data, I must predict whether the othe
 - Fare: the amount of money spent on the ticket
 - Cabin: cabin category
 - Embarked: port where passenger embarked (C = Cherbourg, Q = Queenstown, S = Southampton)
-```
 
 ## Import Necessary Libraries
 
