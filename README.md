@@ -128,8 +128,8 @@ NA.sort_values("percentage", ascending=False)
 ```
 ```
 column_name	percentage
-7	Cabin	77.104377
-3	Age	19.865320
+7	Cabin	    77.104377
+3	Age	        19.865320
 8	Embarked	0.224467
 ```
 
