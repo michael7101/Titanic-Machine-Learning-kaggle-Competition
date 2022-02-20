@@ -321,6 +321,22 @@ Submitting prediction:
 submit=pd.read_csv('../input/titanic/gender_submission.csv')
 submit['Survived']=predictions
 submit.to_csv('submission.csv', index=False)
+print(submit)
 ```
+```
+   PassengerId  Survived
+0            892         0
+1            893         0
+2            894         0
+3            895         0
+4            896         0
+..           ...       ...
+413         1305         0
+414         1306         1
+415         1307         0
+416         1308         0
+417         1309         0
 
+[418 rows x 2 columns]
+```
 Our submission to the competition resulted in a 77.5 percent accuracy on the survivours. Which I'm happy with for a first attempt. Any suggestions to improve our score are welcome.
