@@ -31,7 +31,8 @@ The test.csv dataset contains similar information but does not disclose whether 
 
 Using the patterns I find in the train.csv data, I must predict whether the other 418 passengers onboard (found in test.csv) survived.
 
-#### Variable Descriptions:
+**Variable Descriptions:**
+```{py}
 - Passenger: unique id number to each passenger
 - Survived: passenger survive(1) or died(0)
 - P-class: passenger class
@@ -44,10 +45,12 @@ Using the patterns I find in the train.csv data, I must predict whether the othe
 - Fare: the amount of money spent on the ticket
 - Cabin: cabin category
 - Embarked: port where passenger embarked (C = Cherbourg, Q = Queenstown, S = Southampton)
+```
 
 #### Import Necessary Libraries
 
-# Required python packages:
+**Required python packages:**
+```{py}
 import numpy as np 
 import pandas as pd
 import xgboost as xgb
@@ -61,26 +64,29 @@ from sklearn.metrics import plot_confusion_matrix
 from sklearn.metrics import confusion_matrix
 from sklearn.datasets import make_classification
 from sklearn.metrics import accuracy_score
-
+```
 #### Read In and Explore the Data
 
-# Importing dataset:
+**Importing dataset:**
+```{py}
 train_data = pd.read_csv("/kaggle/input/titanic/train.csv")
 test_data = pd.read_csv("../input/titanic/test.csv")
-
+```
+```{py}
 # Percent of passengers that survived in our training data set vs percent of total survivors
 y = train_data["Survived"].copy()
 print('Train sample:    ', (sum(y)/len(y))*100, '%')
 print('Total passanger: ', ((2224-1502)/2224)*100, '%')
-
+```
 Train sample:     38.38383838383838 %
 Total passanger:  32.46402877697842 %
 
 38% of passengers survived in the training data set, and only 32% survived out of the total passengers in the ship. To get the best score in the competition, we may need to adjust our model to be more pessimistic with its predicted outcome. 
 
+```{py}
 # Prevewing the values in each feature
 print(train_data.apply(lambda col: col.unique()))
-
+```
 PassengerId    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14...
 Survived                                                  [0, 1]
 Pclass                                                 [3, 1, 2]
@@ -99,9 +105,11 @@ There appear to be some missing values in the features "Age," "Cabin," and "Emba
 
 # Cleaning Data
 
+```{py}
 # Remove useless features 
 train_data.drop(['Name', 'Ticket', 'PassengerId'], axis=1, inplace=True)
 test_data.drop(['Name', 'Ticket', 'PassengerId'], axis=1, inplace=True)
+```
 
 #  Selecting features with missing values 
 NA = [(c, train_data[c].isna().mean()*100) for c in train_data]
