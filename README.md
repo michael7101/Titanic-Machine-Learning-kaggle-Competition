@@ -1,4 +1,4 @@
-# ---------Titanic-Machine-Learning-kaggle-Competition---------
+# ---Titanic-Machine-Learning-kaggle-Competition---
 
 ![](Images/Titanic_Stardboard_Side_Diagram.jpg)
 
