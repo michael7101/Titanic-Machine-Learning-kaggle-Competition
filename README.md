@@ -6,7 +6,8 @@
  
 
 #### About:
-My purpose for entering this challenge is to learn and practice my data analysis skills. In this competition, we use machine learning to create a model that predicts which passengers survived the Titanic shipwreck. The full details of the competition are at https://www.kaggle.com/c/titanic.
+My purpose for entering this challenge is to learn and practice my data analysis skills. In this competition, we use machine learning to create a model that predicts which passengers survived the Titanic shipwreck. The full details of the competition are [here.](https://www.kaggle.com/c/titanic)
+
 
 #### Skill Learnt:
 - Python basics
@@ -151,10 +152,12 @@ test_data[columns_low_NA] = test_data[columns_low_NA].fillna(test_data.mode().il
 # Survival chart for comparison of each sex
 sns.countplot(x="Sex", hue="Survived", data=train_data)
 ```
+![](Images/Figure_1.png)
 ```{py}
 # Survival chart for comparison for the "Parch" feature
 sns.countplot(x="Parch", hue="Survived", data=train_data)
 ```
+![](Images/Figure_2.png)
 
 Having one, two or three parents or children increases the chance of survival well zero or more the three children decrease the chance of survival. There is no strong pattern, so this feature will likely have low importance. 
 
@@ -162,6 +165,7 @@ Having one, two or three parents or children increases the chance of survival we
 # Survival chart for comparison for the "SibSp" feature
 sns.countplot(x="SibSp", hue="Survived", data=train_data)
 ```
+![](Images/Figure_3.png)
 
 Having one, two siblings and or spouse increases the chance of survival well zero or more the two children decrease the chance of survival. There is no strong pattern, so this feature will likely have low importance. 
 
@@ -198,6 +202,7 @@ Each variable in "Pclass" has, on average, roughly a 20% difference in survival 
 g = sns.FacetGrid(train_data, col='Survived')
 g.map(plt.hist, 'Age', bins=30)
 ```
+![](Images/Figure_4.png)
 
 There is no strong pattern for the passager age survival rate, so this feature will likely have low importance in our model. 
 
@@ -206,6 +211,8 @@ There is no strong pattern for the passager age survival rate, so this feature w
 g = sns.FacetGrid(train_data, col='Survived')
 g.map(plt.hist, 'Fare', bins=25)
 ```
+![](Images/Figure_5.png)
+
 There is no strong pattern for the passager's fare price, so this feature will likely have low importance in our model. 
 
 # Prossesing The Data
