@@ -5,25 +5,25 @@
 [img source](https://www.google.com/imgres?imgurl=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fa%2Fa3%2FTitanic_Stardboard_Side_Diagram.jpg&imgrefurl=https%3A%2F%2Fcommons.wikimedia.org%2Fwiki%2FFile%3ATitanic_Stardboard_Side_Diagram.jpg&tbnid=GwertQ_rt9kJgM&vet=12ahUKEwiD4-eWjPb1AhVzqnIEHVPhDHsQMygBegUIARCJAg..i&docid=tMsLPtCu8Kue8M&w=4096&h=1569&q=titanic&hl=en&safe=images&ved=2ahUKEwiD4-eWjPb1AhVzqnIEHVPhDHsQMygBegUIARCJAg)
  
 
-#### About:
+### About:
 My purpose for entering this challenge is to learn and practice my data analysis skills. In this competition, we use machine learning to create a model that predicts which passengers survived the Titanic shipwreck. The full details of the competition are [here.](https://www.kaggle.com/c/titanic)
 
 
-#### Skill Learnt:
+### Skill Learnt:
 - Python basics
 - Data cleaning
 - Explore data
 - Analysis data 
 - Feature engineering
 
-#### The Challenge:
+### The Challenge:
 On April 15, 1912, the widely considered "unsinkable" RMS Titanic sank after colliding with an iceberg during her maiden voyage. Unfortunately, there weren't enough lifeboats for everyone on board, resulting in the death of 1502 out of 2224 passengers and crew.
 
 While there was some element of luck involved in surviving, it seems some groups of people were more likely to survive than others.
 
 In this challenge, I need to build a predictive model that answers the question: "what sorts of people were more likely to survive?" using our given data set. 
 
-#### Data Used:
+### Data Used:
 I have access to two similar datasets in this competition, including passenger information listed below under the "Variable Descriptions." One dataset is titled train.csv, and the other is titled test.csv.
 
 Train.csv will contain the details of a subset of the passengers on board (891 to be exact), and we will reveal whether they survived or not.
@@ -49,8 +49,7 @@ Using the patterns I find in the train.csv data, I must predict whether the othe
 - Embarked: port where passenger embarked (C = Cherbourg, Q = Queenstown, S = Southampton)
 ```
 
-#### Import Necessary Libraries
-
+### Import Necessary Libraries
 
 ```{py}
 # Required python packages:
@@ -68,8 +67,8 @@ from sklearn.metrics import confusion_matrix
 from sklearn.datasets import make_classification
 from sklearn.metrics import accuracy_score
 ```
-#### Read In and Explore the Data
 
+### Read In and Explore the Data
 
 ```{py}
 # Importing dataset:
@@ -109,7 +108,7 @@ Embarked                                          [S, C, Q, nan]
 
 There appear to be some missing values in the features "Age," "Cabin," and "Embarked." The features "PassengerID," "Name," and "Ticket" are of no use in building our model.
 
-# Cleaning Data
+### Cleaning Data
 
 ```{py}
 # Remove useless features 
@@ -149,7 +148,7 @@ train_data[columns_low_NA] = train_data[columns_low_NA].fillna(train_data.mode()
 test_data[columns_low_NA] = test_data[columns_low_NA].fillna(test_data.mode().iloc[0])
 ```
 
-#### Data Analysis
+### Data Analysis
 
 ```{py}
 # Survival chart for comparison of each sex
@@ -220,39 +219,44 @@ g.map(plt.hist, 'Fare', bins=25)
 
 There is no strong pattern for the passager's fare price, so this feature will likely have low importance in our model. 
 
-# Prossesing The Data
+### Prossesing The Data
 
+**Feature mapping for the feature "Pclass":**
 ```{py}
-# Feature mapping for the feature "Pclass"
 Pclass =   {1 : 'PclassA', 2 : 'PclassB', 3 : 'PclassC'}
 train_data['Pclass'] = train_data['Pclass'].map(Pclass)
 test_data['Pclass'] = test_data['Pclass'].map(Pclass)
 ```
+
+**Changing feature "sex" from categorical to numerical:** 
 ```{py}
-# Changing feature "sex" from categorical to numerical 
 sex_bin = {"female": 0,   # Zero is female 
            "male": 1}     # One is for male
 train_data['Sex'] = train_data['Sex'].map(sex_bin)
 test_data['Sex'] = test_data['Sex'].map(sex_bin)
 ```
+
+**One-hot encoding for the features "Embarked" and "Pclass":**
 ```{py}
-# One-hot encoding for the features "Embarked" and "Pclass"
 train_encoded = pd.get_dummies(train_data, columns=['Embarked', 'Pclass'])
 test_encoded = pd.get_dummies(test_data, columns=['Embarked', 'Pclass'])
 ```
 
-# Building The Model
+### Building The Model
+
+**Drop the target variable for testing:**
 ```{py}
-# Drop the target variable for testing
 X = train_encoded.drop(['Survived'], axis=1).copy()
 ```
+
+**Split data into training and validation data, for both features and target:**
 ```{py}
-# Split data into training and validation data, for both features and target
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=0, stratify=y)
 X, y = make_classification(random_state=0)
 ```
+
+**Set up model with XGboost:**
 ```{py}
-# Set up model with XGboost 
 model = xgb.XGBClassifier(seed=0,
                       max_depth=6,
                       subsample=1,
@@ -263,7 +267,10 @@ model = xgb.XGBClassifier(seed=0,
                       reg_alpha=0,
                       reg_lambda=1,
                       use_label_encoder=False)
-# Fit the model
+```
+
+**Fit the model:**
+```{py}
 model.fit(X_train, y_train)
 y_predict = model.predict(X_test)
 y_train_predict = model.predict(X_train)
@@ -271,12 +278,11 @@ y_train_predict = model.predict(X_train)
 print('Train accurcy', (accuracy_score(y_train, y_train_predict))*100, '%')
 print('Test accurcy ', (accuracy_score(y_test, y_predict))*100, '%')
 ```
-```
 Train accurcy 97.75449101796407 %
 Test accurcy  83.85650224215246 %
-```
+
+**Confusion matrix diagram:**
 ```{py}
-# Confusion Matrix Diagram
 plot_confusion_matrix(model, X_test, y_test, display_labels=["Did not Survive", "Survived"])
 plt.title("confusion Matrix Diagram")
 ```
@@ -284,8 +290,8 @@ plt.title("confusion Matrix Diagram")
 
 We have 26 false non-survival predictions in our confusion matrix and only 10 false survived predictions. We want this since our training data had a high percentage of survivors than the actual survivors on the ship. 
 
+**Plot to visualize importance of each feature:**
 ```{py}
-# Plot to visualize importance of each feature
 feature_imp = pd.Series(model.feature_importances_, index=X_train.columns).sort_values(ascending=False)
 plt.figure(figsize=(10,8))
 sns.barplot(x=feature_imp, y=feature_imp.index)
@@ -297,22 +303,22 @@ plt.tight_layout()
 ```
 ![](Images/Figure_7.png)
 
+**Plot of single tree:**
 ```{py}
-# Plot of single tree
 plot_tree(model, num_trees=0)
 plt.gcf().set_size_inches(30, 30)
 plt.title("Plot of Single Tree in our Model")
 ```
 
-# Making my prediction
+### Making my prediction
 
+**Using our model to make a prediction:**
 ```{py}
-# Using our model to make a prediction
 test = test_encoded.copy()
 predictions = model.predict(test)
 ```
+**Submitting prediction:**
 ```{py}
-# Submitting prediction
 submit=pd.read_csv('../input/titanic/gender_submission.csv')
 submit['Survived']=predictions
 submit.to_csv('submission.csv', index=False)
