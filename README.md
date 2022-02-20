@@ -14,6 +14,7 @@ My purpose for entering this challenge is to learn and practice my data analysis
 - Explore data
 - Analysis data 
 - Feature engineering
+- Machine learning
 
 ## The Challenge:
 On April 15, 1912, the widely considered "unsinkable" RMS Titanic sank after colliding with an iceberg during her maiden voyage. Unfortunately, there weren't enough lifeboats for everyone on board, resulting in the death of 1502 out of 2224 passengers and crew.
