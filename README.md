@@ -32,9 +32,8 @@ The test.csv dataset contains similar information but does not disclose whether 
 
 Using the patterns I find in the train.csv data, I must predict whether the other 418 passengers onboard (found in test.csv) survived.
 
-
+**Variable Descriptions:**
 ```{py}
-# Variable Descriptions:
 - Passenger: unique id number to each passenger
 - Survived: passenger survive(1) or died(0)
 - P-class: passenger class
@@ -51,8 +50,8 @@ Using the patterns I find in the train.csv data, I must predict whether the othe
 
 ## Import Necessary Libraries
 
+**Required python packages:**
 ```{py}
-# Required python packages:
 import numpy as np 
 import pandas as pd
 import xgboost as xgb
@@ -70,24 +69,27 @@ from sklearn.metrics import accuracy_score
 
 ## Read In and Explore the Data
 
+**Importing dataset:**
 ```{py}
-# Importing dataset:
 train_data = pd.read_csv("/kaggle/input/titanic/train.csv")
 test_data = pd.read_csv("../input/titanic/test.csv")
 ```
+
+**Percent of passengers that survived in our training data set vs percent of total survivors:**
 ```{py}
-# Percent of passengers that survived in our training data set vs percent of total survivors
 y = train_data["Survived"].copy()
 print('Train sample:    ', (sum(y)/len(y))*100, '%')
 print('Total passanger: ', ((2224-1502)/2224)*100, '%')
 ```
+```
 Train sample:     38.38383838383838 %
 Total passanger:  32.46402877697842 %
+```
 
 38% of passengers survived in the training data set, and only 32% survived out of the total passengers in the ship. To get the best score in the competition, we may need to adjust our model to be more pessimistic with its predicted outcome. 
 
+**Prevewing the values in each feature:**
 ```{py}
-# Prevewing the values in each feature
 print(train_data.apply(lambda col: col.unique()))
 ```
 ```
@@ -105,23 +107,24 @@ Cabin          [nan, C85, C123, E46, G6, C103, D56, A6, C23 C...
 Embarked                                          [S, C, Q, nan]
 ```
 
-
 There appear to be some missing values in the features "Age," "Cabin," and "Embarked." The features "PassengerID," "Name," and "Ticket" are of no use in building our model.
 
 ## Cleaning Data
 
+**Remove useless features:**
 ```{py}
-# Remove useless features 
 train_data.drop(['Name', 'Ticket', 'PassengerId'], axis=1, inplace=True)
 test_data.drop(['Name', 'Ticket', 'PassengerId'], axis=1, inplace=True)
 ```
+
+**Selecting features with missing values:** 
 ```{py}
-#  Selecting features with missing values 
 NA = [(c, train_data[c].isna().mean()*100) for c in train_data]
 NA = pd.DataFrame(NA, columns=["column_name", "percentage"])
 ```
+
+**Display the percentage of missing values in each feature:** 
 ```{py}
-# Display the percentage of missing values in each feature 
 NA = NA[NA.percentage > 0]
 NA.sort_values("percentage", ascending=False)
 ```
@@ -131,48 +134,52 @@ column_name	percentage
 3	Age	19.865320
 8	Embarked	0.224467
 ```
+
 We will discard the " Cabin " feature since it is missing most of its values. We will replace the missing values in features "age" and "Embarked" with mean values in each feature.
 
+**Remove the "Cabin" feature from the data sets:**
 ```{py}
-# Remove the "Cabin" feature from the data sets
 train_data.drop(['Cabin'], axis=1, inplace=True)
 test_data.drop(['Cabin'], axis=1, inplace=True)
 ```
+
+**Select the remaining features to replace with the most frequent value (mean value):**
 ```{py}
-# Select the remaining features to replace with the most frequent value (mean value)
 columns_low_NA = ['Age', 'Embarked']
 ```
+
+**Fill missing values for each feature with it's mean value:**
 ```{py}
-# Fill missing values for each feature with it's mean value
 train_data[columns_low_NA] = train_data[columns_low_NA].fillna(train_data.mode().iloc[0])
 test_data[columns_low_NA] = test_data[columns_low_NA].fillna(test_data.mode().iloc[0])
 ```
 
 ## Data Analysis
 
+**Survival chart for comparison of each sex:**
 ```{py}
-# Survival chart for comparison of each sex
 sns.countplot(x="Sex", hue="Survived", data=train_data)
 ```
 ![](Images/Figure_1.png)
+
+**Survival chart for comparison for the "Parch" feature:**
 ```{py}
-# Survival chart for comparison for the "Parch" feature
 sns.countplot(x="Parch", hue="Survived", data=train_data)
 ```
 ![](Images/Figure_2.png)
 
 Having one, two or three parents or children increases the chance of survival well zero or more the three children decrease the chance of survival. There is no strong pattern, so this feature will likely have low importance. 
 
+**Survival chart for comparison for the "SibSp" feature:**
 ```{py}
-# Survival chart for comparison for the "SibSp" feature
 sns.countplot(x="SibSp", hue="Survived", data=train_data)
 ```
 ![](Images/Figure_3.png)
 
 Having one, two siblings and or spouse increases the chance of survival well zero or more the two children decrease the chance of survival. There is no strong pattern, so this feature will likely have low importance. 
 
+**Percent of survival for each variable in the "Embarked" feature:**
 ```{py}
-# Percent of survival for each variable in "Embarked"
 Embarked = train_data[['Embarked', 'Survived']].groupby([
     'Embarked'], as_index=False).mean().sort_values(
         by='Survived', ascending=False)
@@ -186,8 +193,8 @@ print(Embarked)
 ```
 Each variable in "Embarked" has roughly a 10% difference in survival rate which means this feature will likely have low importance in our model.
 
+**Percent of survival for each variable in the "Pclass" feature:**
 ```{py}
-# Percent of survival for each variable in "Pclass"
 Pclass = train_data[['Pclass', 'Survived']].groupby([
     'Pclass'], as_index=False).mean().sort_values(
         by='Survived', ascending=False)
@@ -201,8 +208,8 @@ print(Pclass)
 ```
 Each variable in "Pclass" has, on average, roughly a 20% difference in survival rate which means this feature will likely have moderate importance in our model.
 
+**Survival chart for comparison of the "Age" feature**
 ```{py}
-# Survival chart for comparison of the "Age" feature
 g = sns.FacetGrid(train_data, col='Survived')
 g.map(plt.hist, 'Age', bins=30)
 ```
@@ -210,8 +217,8 @@ g.map(plt.hist, 'Age', bins=30)
 
 There is no strong pattern for the passager age survival rate, so this feature will likely have low importance in our model. 
 
+**Survival chart for comparison of the "Fare" feature:**
 ```{py}
-# Survival chart for comparison of the "Fare" feature
 g = sns.FacetGrid(train_data, col='Survived')
 g.map(plt.hist, 'Fare', bins=25)
 ```
@@ -221,7 +228,7 @@ There is no strong pattern for the passager's fare price, so this feature will l
 
 ## Prossesing The Data
 
-**Feature mapping for the feature "Pclass":**
+**Feature mapping for the "Pclass" feature:**
 ```{py}
 Pclass =   {1 : 'PclassA', 2 : 'PclassB', 3 : 'PclassC'}
 train_data['Pclass'] = train_data['Pclass'].map(Pclass)
@@ -236,7 +243,7 @@ train_data['Sex'] = train_data['Sex'].map(sex_bin)
 test_data['Sex'] = test_data['Sex'].map(sex_bin)
 ```
 
-**One-hot encoding for the features "Embarked" and "Pclass":**
+**One-hot encoding for the "Embarked" and "Pclass" features:**
 ```{py}
 train_encoded = pd.get_dummies(train_data, columns=['Embarked', 'Pclass'])
 test_encoded = pd.get_dummies(test_data, columns=['Embarked', 'Pclass'])
@@ -304,13 +311,6 @@ plt.title("Visualizing Important Features")
 plt.tight_layout()
 ```
 ![](Images/Figure_7.png)
-
-**Plot of single tree:**
-```{py}
-plot_tree(model, num_trees=0)
-plt.gcf().set_size_inches(30, 30)
-plt.title("Plot of Single Tree in our Model")
-```
 
 ## Making my prediction
 
