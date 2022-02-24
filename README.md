@@ -50,7 +50,6 @@ Using the patterns I find in the train.csv data, I must predict whether the othe
 
 **Required python packages:**
 ```{py}
-import numpy as np 
 import pandas as pd
 import xgboost as xgb
 import matplotlib.pyplot as plt
