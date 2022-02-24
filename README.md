@@ -340,4 +340,4 @@ print(submit)
 
 [418 rows x 2 columns]
 ```
-Our submission to the competition resulted in a 77.5 percent accuracy on the survivours. Which I'm happy with for a first attempt. Any suggestions to improve our score are welcome.
+Our submission to the competition resulted in a 78% accuracy on the survivours. Which I'm happy with for a first attempt. Any suggestions to improve our score are welcome.
